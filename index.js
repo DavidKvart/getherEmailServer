@@ -2,7 +2,10 @@ const express = require("express");
 const nodemailer = require("nodemailer");
 const cors = require("cors");
 const app = express();
-const port = 3300;
+require("dotenv").config();
+const port = process.env.PORT || 3300;
+app.use(express.json({ limit: "20mb" }));
+app.use(cors());
 
 function sendEmail(email, code) {
   return new Promise((resolve, reject) => {
@@ -28,8 +31,6 @@ function sendEmail(email, code) {
     });
   });
 }
-app.use(express.json({ limit: "20mb" }));
-app.use(cors());
 
 app.post("/", (req, res) => {
   let email = req.body.email;
